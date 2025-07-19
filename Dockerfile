@@ -1,15 +1,15 @@
 FROM rasa/rasa-sdk:3.1.0
 
-#FROM rasa/rasa:3.1.0-full
-
 WORKDIR /app
 
 COPY . /app
 
-# Upgrade pip first, then install requirements
+# Install Python packages globally (inside container)
+USER root
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
-# Give execute permission to start.sh
+
+# Give execute permission to your script
 RUN chmod +x start.sh
 
 CMD ["./start.sh"]
