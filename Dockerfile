@@ -1,4 +1,4 @@
-FROM rasa/rasa:3.1.0-full
+FROM rasa/rasa-sdk:3.1.0
 
 WORKDIR /app
 
@@ -11,8 +11,7 @@ COPY data/rules.yml .
 COPY data/stories.yml .
 COPY credentials.yml .
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
 
 RUN rasa train
 
