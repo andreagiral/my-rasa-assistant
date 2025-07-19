@@ -11,8 +11,10 @@ COPY data/rules.yml .
 COPY data/stories.yml .
 COPY credentials.yml .
 
-RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+# ✅ Install Python packages without permission issues
+RUN pip install --user --no-cache-dir openai boto3 python-dotenv beautifulsoup4
 
-RUN rasa train
+# Optional: remove rasa train from here if your Render service only runs actions
+RUN rasa train  
 
 CMD ["rasa", "run", "--enable-api", "--debug", "--cors", "*"]
