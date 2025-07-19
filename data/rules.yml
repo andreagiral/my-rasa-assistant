@@ -1,0 +1,27 @@
+version: "3.1"
+rules:
+
+- rule: Say greeting
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+
+- rule: Respond with chapter content
+  steps:
+  - intent: ask_bio_content
+  - action: action_get_bio_content
+
+- rule: Handle capstone ideas
+  steps:
+    - intent: ask_capstone
+    - action: action_get_capstone_idea
+
+
+
+

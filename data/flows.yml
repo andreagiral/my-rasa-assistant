@@ -1,0 +1,94 @@
+version: "3.1"
+
+flows:
+
+  greet_flow:
+    description: Handle initial greeting and welcome message.
+    nlu_trigger:
+      - intent: greet
+    steps:
+      - action: utter_greet
+
+  goodbye_flow:
+    description: End the conversation with encouragement.
+    nlu_trigger:
+      - intent: goodbye
+    steps:
+      - action: utter_goodbye
+
+  capstone_help_flow:
+    description: Assist students with questions about their capstone project.
+    nlu_trigger:
+      - intent: ask_capstone_help
+    steps:
+      - action: utter_ask_capstone_help
+
+  bio_question_flow:
+    description: Handle questions related to biology topics.
+    nlu_trigger:
+      - intent: ask_bio_question
+    steps:
+      - action: utter_ask_bio_question
+
+  resource_request_flow:
+    description: Provide study resources like diagrams, videos, or flashcards.
+    nlu_trigger:
+      - intent: request_resource
+    steps:
+      - action: utter_request_resource
+
+  socratic_mode_flow:
+    description: Activate Socratic mode to challenge students with deep critical thinking questions.
+    nlu_trigger:
+      - intent: start_socratic_mode
+    steps:
+      - action: utter_start_socratic_mode
+
+  progress_check_flow:
+    description: Show user progress and checkpoints.
+    nlu_trigger:
+      - intent: show_progress
+    steps:
+      - action: utter_show_progress
+
+  motivation_boost_flow:
+    description: Provide motivational feedback using ARCS theory.
+    nlu_trigger:
+      - intent: get_motivated
+    steps:
+      - action: utter_get_motivated
+
+  help_request_flow:
+    description: Offer support for general help inquiries.
+    nlu_trigger:
+      - intent: request_help
+    steps:
+      - action: utter_request_help
+
+  clarification_flow:
+    description: Ask user to clarify or explain further.
+    nlu_trigger:
+      - intent: request_clarification
+    steps:
+      - action: utter_request_clarification
+
+  feedback_flow:
+    description: Accept feedback from the user about the assistant.
+    nlu_trigger:
+      - intent: provide_feedback
+    steps:
+      - action: utter_provide_feedback
+
+  improvement_suggestion_flow:
+    description: Handle suggestions from the user to improve the experience.
+    nlu_trigger:
+      - intent: suggest_improvement
+    steps:
+      - action: utter_suggest_improvement
+
+  progress_prompt_flow:
+    description: Prompt user to reflect on or continue progress.
+    nlu_trigger:
+      - intent: progress_prompt
+    steps:
+      - action: utter_progress_prompt

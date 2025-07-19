@@ -1,0 +1,164 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: ask_capstone
+  examples: |
+    - I need help with my capstone
+    - can you guide me through my science project?
+    - I'm stuck on my project
+    - how do I start brainstorming?
+    - I need help designing my system
+    - capstone idea on gene expression
+    - I need a capstone for photosynthesis
+    - can you give me a biology capstone idea
+    - suggest a project for my capstone
+    - I need a capstone project idea
+    - help me with my capstone project
+    - I need a capstone project idea for biology
+    - can you help me with my capstone project?
+
+- intent: ask_bio_question
+  examples: |
+    - what does the mitochondria do?
+    - explain photosynthesis
+    - how does cellular respiration work?
+    - what's the difference between DNA and RNA?
+    - help me with biology
+    - what is biology?
+    - what is a cell?
+    - can you explain cell structure?
+    - tell me about organisms
+    - how does life begin?
+
+- intent: request_resource
+  examples: |
+    - I need a diagram
+    - do you have a video on enzymes?
+    - give me flashcards
+    - show me an animation
+    - any resources for photosynthesis?
+
+- intent: start_socratic_mode
+  examples: |
+    - ask me a deep question
+    - let's do a thinking challenge
+    - quiz me with something hard
+    - I want to try Socratic mode
+    - Socratic thinking please
+
+- intent: show_progress
+  examples: |
+    - how far have I gotten?
+    - show my checkpoints
+    - what's my progress?
+    - am I on track?
+    - review what I've done
+
+- intent: get_motivated
+  examples: |
+    - I'm tired
+    - I feel stuck
+    - motivate me
+    - help me stay focused
+    - give me encouragement
+
+- intent: request_help
+  examples: |
+    - I need help
+    - can you help me?
+    - I don't understand this
+    - what should I do now?
+
+- intent: request_clarification
+  examples: |
+    - what do you mean?
+    - can you explain that better?
+    - clarify please
+    - not sure I get it
+
+- intent: provide_feedback
+  examples: |
+    - this is helpful
+    - great explanation
+    - thanks, that worked
+    - good job
+    - I like this
+
+- intent: suggest_improvement
+  examples: |
+    - maybe add visuals
+    - can you slow down?
+    - this needs examples
+    - I think you should explain more
+    - add more interactive stuff
+
+- intent: progress_prompt
+  examples: |
+    - what's next?
+    - where do I go from here?
+    - next step please
+    - continue the checkpoint
+
+- intent: ask_bio_content
+  examples: |
+    - what are the key terms for chapter 1
+    - can you show me section 1.1?
+    - I need help with the visual connection questions
+    - tell me about section 1.2
+    - give me the summary of chapter 1
+    - show the critical thinking questions
+    - review questions for chapter 1
+    - chapter 1 vobaluary
+    - what are the key terms for chapter 2
+    - can you show me section 2.1?
+    - I need help with the visual connection questions for chapter 2
+    - tell me about section 2.2
+    - give me the summary of chapter 2
+    - show the critical thinking questions for chapter 2    
+    - what's in 2.1?
+    - give me 3.4 on photosynthesis
+    - show key terms for chapter 5
+    - I want the summary for 4.2
+    - help me with 1.3
+    - explain 6.2 from the textbook
+    - i need help with chapter 3 
+    - can you show me chapter 4
+    - I need help with chapter 5
+    - can you show me chapter 6
+    - I need help with chapter 7
+    - can you show me chapter 8
+    - I need help with chapter 9
+    - can you show me chapter 10  
+    - show me chapter 11
+    - I need help with chapter 12
+    - can you show me chapter 13
+    - I need help with chapter 14     

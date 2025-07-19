@@ -1,0 +1,9 @@
+FROM rasa/rasa-sdk:3.1.0
+
+WORKDIR /app
+
+COPY actions.py /app/actions.py
+COPY .env /app/.env
+RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+
+CMD ["start", "--actions", "actions"]

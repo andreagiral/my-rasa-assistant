@@ -1,0 +1,34 @@
+version: "3.1"
+
+patterns:
+  # Course codes like BIO181, BIO103, CHM101
+  - name: course_code
+    pattern: "\\b[A-Z]{3}\\d{3}\\b"
+
+  # Capstone project stages
+  - name: capstone_stage
+    pattern: "\\b(brainstorming|researching|designing|evaluating)\\b"
+
+  # Common science keywords
+  - name: science_keywords
+    pattern: "\\b(photosynthesis|cellular respiration|mitochondria|DNA|RNA|enzyme|macromolecules|metabolism|homeostasis)\\b"
+
+  # ARCS motivational terms
+  - name: arcs_motivation
+    pattern: "\\b(Attention|Relevance|Confidence|Satisfaction)\\b"
+
+  # Resource keywords
+  - name: resource_keywords
+    pattern: "\\b(diagram|video|flashcards|animation|study guide|interactive)\\b"
+
+  # Progress phrases
+  - name: progress_check
+    pattern: "\\b(progress|checkpoint|checkpoints|how far|on track|what's next)\\b"
+
+  # Socratic trigger phrases
+  - name: socratic_trigger
+    pattern: "\\b(deep question|socratic mode|critical thinking|challenge me|quiz me)\\b"
+
+  # Request for help
+  - name: help_request
+    pattern: "\\b(I need help|help me|I'm stuck|don't understand|confused|clarify)\\b"

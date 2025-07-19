@@ -1,0 +1,56 @@
+version: "3.1"
+
+
+intents:
+  - greet
+  - goodbye
+  - ask_capstone
+  - ask_bio_question
+  - request_resource
+  - start_socratic_mode
+  - show_progress
+  - get_motivated
+  - request_help
+  - request_clarification
+  - provide_feedback
+  - suggest_improvement
+  - progress_prompt
+  - ask_bio_content
+
+
+responses:
+  utter_greet:
+    - text: "Welcome to ThinkTrek AI! I'm your learning companion. Are we working on a capstone, a bio topic, or something else today?"
+  utter_goodbye:
+    - text: "See you soon. Remember, deep thinking drives discovery!"
+  utter_ask_bio_question:
+    - text: "What biology question do you have?"
+    - text: "Which bio course or concept are you working on? I can help explain or guide your thinking."
+  utter_request_resource:
+    - text: "Sure! Are you looking for diagrams, videos, or flashcards?"
+    - text: "What resource are you looking for?"
+  utter_start_socratic_mode:
+    - text: "Let's start Socratic mode. Ready for a deep-thinking question? You'll have limited time to answer."
+  utter_show_progress:
+    - text: "Here's your current progress: [insert progress details]. What would you like to do next?"
+  utter_get_motivated:
+    - text: "Remember, every step you take is a step towards your goal. Keep going!"
+    - text: "Challenge yourself! Remember: Attention, Relevance, Confidence, and Satisfaction — thats ARCS!"
+  utter_request_help:
+    - text: "What specific help do you need?"
+  utter_request_clarification:
+    - text: "Could you please clarify what you mean?"
+  utter_provide_feedback:
+    - text: "Thank you for your feedback! It helps us improve."
+  utter_suggest_improvement:
+    - text: "Thank you for your suggestion! We'll consider it for future improvements." 
+  utter_progress_prompt:
+    - text: "You're doing great! Want to review what you've done or see your next checkpoint?"
+  utter_ask_capstone_help:
+    - text: "What do you need help with regarding your capstone project?"
+    - text: "Tell me what stage you're in — brainstorming, researching, designing, or evaluating — and I'll help from there."
+
+actions:
+  - action_get_bio_content
+  - action_get_capstone_idea
+
