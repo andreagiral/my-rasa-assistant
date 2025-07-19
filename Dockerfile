@@ -2,7 +2,7 @@ FROM rasa/rasa:3.1.0-full
 
 WORKDIR /app
 
-COPY action/actions.py .
+COPY actions/actions.py .
 COPY config.yml .
 COPY domain.yml .
 COPY endpoints.yml .
