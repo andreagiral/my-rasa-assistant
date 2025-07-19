@@ -1,7 +1,4 @@
-git rm --cached .env
-git rm --cached -r models/
-git commit -m "Remove .env and models from repo history"
-git push
+
 
 # Ignore virtual environment and Python cache
 .venv/
