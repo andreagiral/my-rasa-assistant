@@ -11,4 +11,8 @@ RUN pip install --upgrade pip && \
     chmod +x /app/start.sh
 
 EXPOSE 8000
-CMD ["/app/start.sh"]
+
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+CMD ["./start.sh"]
+
