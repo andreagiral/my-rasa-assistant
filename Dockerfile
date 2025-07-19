@@ -1,20 +1,15 @@
-FROM rasa/rasa-sdk:3.1.0
+FROM rasa/rasa:3.1.0-full
 
 WORKDIR /app
 
-COPY actions/actions.py .
-COPY config.yml .
-COPY domain.yml .
-COPY endpoints.yml .
-COPY data/nlu.yml .
-COPY data/rules.yml .
-COPY data/stories.yml .
-COPY credentials.yml .
+COPY . /app
 
-# ✅ Install Python packages without permission issues
-RUN pip install --user --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+# Install custom dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Optional: remove rasa train from here if your Render service only runs actions
-RUN rasa train  
+# Expose necessary ports
+EXPOSE 5005
+EXPOSE 5055
 
-CMD ["rasa", "run", "--enable-api", "--debug", "--cors", "*"]
+# Start script
+CMD ["./start.sh"]
