@@ -6,8 +6,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
-
+# Upgrade pip first, then install requirements
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 # Give execute permission to start.sh
 RUN chmod +x start.sh
 
