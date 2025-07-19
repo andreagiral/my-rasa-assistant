@@ -1,15 +1,14 @@
-FROM rasa/rasa:3.1.0-full
+FROM rasa/rasa-sdk:3.1.0
+
+#FROM rasa/rasa:3.1.0-full
 
 WORKDIR /app
 
 COPY . /app
 
-# Install custom dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --user -r requirements.txt
 
-# Expose necessary ports
-EXPOSE 5005
-EXPOSE 5055
+# Give execute permission to start.sh
+RUN chmod +x start.sh
 
-# Start script
 CMD ["./start.sh"]
