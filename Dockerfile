@@ -7,9 +7,9 @@ COPY . /app
 # Install Python packages globally (inside container)
 USER root
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt && \
+    chmod +x /app/start.sh
+    
+EXPOSE 8000
 
-# Give execute permission to your script
-RUN chmod +x start.sh
-
-CMD ["./start.sh"]
+CMD ["/app/start.sh"]
