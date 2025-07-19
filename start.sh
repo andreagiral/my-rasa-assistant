@@ -1,10 +1,6 @@
 #!/bin/bash
+echo "✅ Starting Rasa Action Server..."
+rasa run actions --debug --port 5055
 
-# Train the model
-rasa train
-
-# Start both action server and rasa server in background
-rasa run actions --port 5055 &
-rasa run --enable-api --cors "*" --debug
 
 chmod +x start.sh
