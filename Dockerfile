@@ -11,7 +11,7 @@ COPY data/rules.yml .
 COPY data/stories.yml .
 COPY credentials.yml .
 
-RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+RUN pip install --no-cache-dir --user openai boto3 python-dotenv beautifulsoup4
 
 RUN rasa train
 
