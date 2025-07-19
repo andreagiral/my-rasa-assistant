@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY actions/actions.py /app/actions.py
 
-RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+RUN pip install --user --no-cache-dir openai boto3 python-dotenv beautifulsoup4
 
 CMD ["rasa", "run", "actions", "--debug"]
