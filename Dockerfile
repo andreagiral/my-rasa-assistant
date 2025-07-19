@@ -10,7 +10,6 @@ COPY nlu.yml .
 COPY rules.yml .
 COPY stories.yml .
 COPY credentials.yml .
-COPY .env .
 
 RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
 
