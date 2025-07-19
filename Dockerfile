@@ -1,14 +1,19 @@
-# Use the full Rasa image that includes training tools
 FROM rasa/rasa:3.1.0-full
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy all files from your repo into the container
-COPY . /app
+COPY actions.py .
+COPY config.yml .
+COPY domain.yml .
+COPY endpoints.yml .
+COPY nlu.yml .
+COPY rules.yml .
+COPY stories.yml .
+COPY credentials.yml .
+COPY .env .
 
-# Train your assistant when the container is built
+RUN pip install --no-cache-dir openai boto3 python-dotenv beautifulsoup4
+
 RUN rasa train
 
-# Run the Rasa server with API access and debugging enabled
-CMD ["run", "--enable-api", "--cors", "*", "--debug"]
+CMD ["rasa", "run", "--enable-api", "--debug", "--cors", "*"]
