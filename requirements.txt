@@ -3,8 +3,3 @@ boto3
 python-dotenv
 beautifulsoup4
 rasa_sdk
-re
-os
-logging
-typing 
-botocore
