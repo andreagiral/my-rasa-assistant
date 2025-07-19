@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
 
 # Give execute permission to start.sh
 RUN chmod +x start.sh
