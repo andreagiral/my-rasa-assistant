@@ -1,0 +1,12 @@
+# Ignore virtual environment and Python cache
+.venv/
+__pycache__/
+*.pyc
+
+# Ignore model files and environment secrets
+models/
+.env
+
+# VS Code and system files
+.vscode/
+.DS_Store
