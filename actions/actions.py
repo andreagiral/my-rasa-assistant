@@ -70,33 +70,11 @@ class ActionGetCapstoneIdea(Action):
 
 class ActionGetBioContent(Action):
     def name(self) -> Text:
+        print ("Registering ActionGetBioContent")
         return "action_get_bio_content"
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> List[Dict[Text, Any]]:
         user_message = tracker.latest_message.get("text", "").lower()
-        
-       #if "capstone" in user_message:
-           #logger.info("[ROUTE] Entered capstone project block")
-           #match = re.search(r"capstone(?: (?:idea|project))?(?: about| on| for)?\s*(.+)", user_message)
-           #if match:
-            #   topic = match.group()
-             #  prompt = f"Suggest a creative, high school-level or college capstone project idea based on the topic: {topic}."
-              # context = "Topics should be grounded in biology and based on OpenStax Biology 2e where possible."
-               #response = summarize_or_answer(prompt, context)
-               #dispatcher.utter_message(response or "Sorry, I couldn't generate a capstone idea just now.")
-           #else:
-              #dispatcher.utter_message("What biology topic are you thinking of for your capstone project?")
-              #return []
-
-       #if not any(k in user_message for k in ["chapter", "section", "summary", "key terms", "review", "critical thinking", "visual"]):
-        #   logger.info("[ROUTE] Entered general OpenAI Q&A block")
-          # prompt = f"Answer this biology question clearly for a student: {user_message}"
-          #response = summarize_or_answer(prompt, context="")
-          #if response:
-          #     dispatcher.utter_message(response)
-           #else:
-          #     dispatcher.utter_message("Sorry, I couldn’t understand your question.")
-          # return []
 
         section_match = re.search(r"\b(\d{1,2})\.(\d)\b", user_message)
         chapter_match = re.search(r"chapter\s+(\d{1,2})", user_message)
