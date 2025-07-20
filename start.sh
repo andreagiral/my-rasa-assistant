@@ -1,9 +1,6 @@
 #!/bin/bash
-export PYTHONPATH=/app
-
 echo "✅ Starting Rasa Action Server..."
 echo "Rasa SDK version: $(pip show rasa-sdk | grep Version)"
-
 echo "Python version: $(python --version)"
 
 #echo "⚙️ Running Rasa SDK action server..."
