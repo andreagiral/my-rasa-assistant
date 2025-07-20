@@ -1,4 +1,6 @@
 #!/bin/bash
+export PYTHONPATH=/app
+
 echo "✅ Starting Rasa Action Server..."
 echo "Rasa SDK version:"
 pip show rasa-sdk
