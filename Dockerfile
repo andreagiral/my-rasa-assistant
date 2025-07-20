@@ -12,4 +12,4 @@ RUN pip install --upgrade pip && \
 
 EXPOSE 8000
 
-ENTRYPOINT ["bash", "./start.sh"]
+CMD ["bash", "./start.sh"]
