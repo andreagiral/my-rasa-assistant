@@ -6,7 +6,7 @@ pip show rasa-sdk
 echo "Python version:"
 python --version
 
-echo "⚙️ Running Rasa Action Server on port 8000..."
-rasa run actions --port 8000 --debug
+echo "⚙️ Running Rasa SDK action server..."
+python -m rasa_sdk --port 8000 --debug
 
 echo "❌ Action Server exited unexpectedly."
