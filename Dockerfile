@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 # Install Python packages globally (inside container)
-USER root
+#USER root
 
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
@@ -14,4 +14,4 @@ EXPOSE 8000
 #COPY start.sh /app/start.sh
 #RUN chmod +x /app/start.sh 
 
-CMD ["bash", "./start.sh"]
+CMD ["bash", "/app/start.sh"]
