@@ -4,25 +4,73 @@
 <head>
   <meta charset="UTF-8" />
   <title>ThinkTrek AI Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f5f1eb; /* Beige background */
+      font-family: 'Segoe UI', sans-serif;
+      color: #3c2f2f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      width: 95%;
+      max-width: 420px;
+      height: 85vh;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin: 0 auto;
+      color: #5c4033; /* Dark brown */
+      padding: 10px 0;
+    }
+
+    #webchat {
+      flex-grow: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+      .chat-container {
+        height: 90vh;
+        max-width: 100%;
+        border-radius: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h2>Chat with ThinkTrek AI</h2>
-  
-  <div id="webchat"></div>
+  <div class="chat-container">
+    <div class="header">ThinkTrek AI</div>
+    <div id="webchat"></div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@rasahq/rasa-webchat@1.0.1-beta.15/lib/index.min.js"></script>
-<script>
-  window.WebChat.default({
-    initPayload: "/greet",
-    customData: {}, // Optional
-    socketUrl: "https://thinktrek-web.onrender.com",
-    socketPath: "/socket.io/",
-    title: "ThinkTrek AI",
-    subtitle: "Your biology tutor",
-    profileAvatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OpenAI_Logo.svg/512px-OpenAI_Logo.svg.png", // Optional
-    showFullScreenButton: true,
-  });
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@botfront/rasa-webchat/lib/index.js"></script>
+  <script>
+    WebChat.default({
+      selector: "#webchat",
+      initPayload: "/greet",
+      customData: {},
+      socketUrl: "https://thinktrek-web.onrender.com",
+      socketPath: "/socket.io/",
+      title: "ThinkTrek AI",
+      subtitle: "Your biology tutor",
+      inputTextFieldHint: "Ask a biology question...",
+      showMessageDate: true,
+      showFullScreenButton: true,
+      profileAvatar: "https://cdn-icons-png.flaticon.com/512/4712/4712104.png"
+    });
+  </script>
 </body>
 </html>
