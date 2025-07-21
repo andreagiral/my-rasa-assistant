@@ -14,4 +14,4 @@ EXPOSE 8000
 #COPY start.sh /app/start.sh
 #RUN chmod +x /app/start.sh 
 
-CMD ["bash", "start.sh"]
+CMD ["python", "-m", "rasa_sdk", "--actions", "actions", "--port", "8000", "--debug"]
