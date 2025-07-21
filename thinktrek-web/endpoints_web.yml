@@ -1,2 +1,2 @@
 action_endpoint:
-  url: "https://thinktrek-web.onrender.com"
+  url: "https://thinktrek-actions.onrender.com/webhook"
