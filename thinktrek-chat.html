@@ -4,23 +4,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ThinkTrek Chatbot</title>
+  <title>ThinkTrek AI Chatbot</title>
 </head>
 <body>
+  <h2>Chat with ThinkTrek AI</h2>
+  
   <div id="webchat"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@botfront/rasa-webchat@0.11.12/lib/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@botfront/rasa-webchat/lib/index.js"></script>
   <script>
     WebChat.default({
+      selector: "#webchat",
       initPayload: "/greet",
-      customData: { language: "en" },
+      customData: {}, // Optional
       socketUrl: "https://thinktrek-web.onrender.com",
       socketPath: "/socket.io/",
       title: "ThinkTrek AI",
       subtitle: "Your biology tutor",
-      profileAvatar: "https://cdn-icons-png.flaticon.com/512/4712/4712100.png",
-      showFullScreenButton: true
     });
   </script>
 </body>
 </html>
+
