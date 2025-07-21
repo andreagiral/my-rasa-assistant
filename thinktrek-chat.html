@@ -10,17 +10,19 @@
   
   <div id="webchat"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@rasahq/rasa-webchat@1.0.1-beta.15/lib/index.min.js"></script>
-  <script>
-    WebChat.default({
-      selector: "#webchat",
-      initPayload: "/greet",
-      customData: {}, // Optional
-      socketUrl: "https://thinktrek-web.onrender.com",
-      socketPath: "/socket.io/",
-      title: "ThinkTrek AI",
-      subtitle: "Your biology tutor",
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@rasahq/rasa-webchat@1.0.1-beta.15/lib/index.min.js"></script>
+<script>
+  window.WebChat.default({
+    initPayload: "/greet",
+    customData: {}, // Optional
+    socketUrl: "https://thinktrek-web.onrender.com",
+    socketPath: "/socket.io/",
+    title: "ThinkTrek AI",
+    subtitle: "Your biology tutor",
+    profileAvatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OpenAI_Logo.svg/512px-OpenAI_Logo.svg.png", // Optional
+    showFullScreenButton: true,
+  });
+</script>
+
 </body>
 </html>
