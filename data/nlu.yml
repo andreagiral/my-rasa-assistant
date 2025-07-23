@@ -162,3 +162,17 @@ nlu:
     - I need help with chapter 12
     - can you show me chapter 13
     - I need help with chapter 14     
+
+- intent: ask_excercise_help
+  examples: |
+    - I need help with my exercise
+    - can you guide me through the exercise?
+    - I'm stuck on the exercise
+    - how do I approach this exercise?
+    - I need exercise help 
+    - can you help me with the exercise?
+    - I need help with this biology challenge
+    - Can you help me answer this exercise?
+    - How does this activity affect my organ systems?
+    - Let's work through this biology worksheet
+    

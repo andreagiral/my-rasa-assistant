@@ -17,6 +17,7 @@ intents:
   - progress_prompt
   - ask_bio_content
   - default
+  - ask_excercise_help
 
 
 responses:
@@ -53,8 +54,9 @@ responses:
   utter_ask_capstone_help:
     - text: "What do you need help with regarding your capstone project?"
     - text: "Tell me what stage you're in — brainstorming, researching, designing, or evaluating — and I'll help from there."
+  
 
 actions:
   - action_get_bio_content
   - action_get_capstone_idea
-
+  - action_get_exercise_help

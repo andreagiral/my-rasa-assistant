@@ -22,6 +22,11 @@ rules:
     - intent: ask_capstone
     - action: action_get_capstone_idea
 
+- rule: Handle exercise help requests
+  steps:
+    - intent: ask_excercise_help
+    - action: action_get_exercise_help
+
 
 
 
