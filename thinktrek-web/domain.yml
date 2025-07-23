@@ -21,6 +21,9 @@ intents:
 responses:
   utter_greet:
     - text: "Welcome to ThinkTrek AI! I'm your learning companion. Are we working on a capstone, a bio topic, or something else today?"
+    - text: "Hi there! I'm ThinkTrek AI, your biology tutor 🤖"
+  utter_default:
+    - text: "I'm sorry, I didn't quite get that. Can you rephrase?"
   utter_goodbye:
     - text: "See you soon. Remember, deep thinking drives discovery!"
   utter_ask_bio_question:
