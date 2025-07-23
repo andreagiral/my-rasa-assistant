@@ -24,8 +24,8 @@ rules:
 
 - rule: Handle exercise help requests
   steps:
-    - intent: ask_excercise_help
-    - action: action_get_exercise_help
+    - intent: ask_exercise_help
+    - action: action_get_exercise_helper
 
 
 
