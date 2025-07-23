@@ -3,92 +3,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ThinkTrek AI Chat</title>
+  <title>ThinkTrek AI Chatbot</title>
   <style>
-    * {
-      box-sizing: border-box;
+    body {
       margin: 0;
       padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-      background-color: #f5f1eb; /* beige */
       font-family: 'Segoe UI', sans-serif;
-      color: #3c2f2f; /* dark brown */
+      background-color: #f5f0e9;
+      color: #4a2e1f;
     }
 
-    .topbar {
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: #ffffff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .topbar h1 {
-      font-size: 1.5rem;
       font-weight: bold;
-      color: #5c4033;
+      font-size: 1.2rem;
+      border-bottom: 1px solid #eee;
     }
 
-    .topbar .buttons {
+    .chat-window {
+      flex-grow: 1;
+      padding: 1rem 2rem;
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      overflow-y: auto;
     }
 
-    .topbar button {
-      background-color: #5c4033;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 500;
+    .chat-bubble {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 18px;
+      line-height: 1.4;
+      word-wrap: break-word;
     }
 
-    .chat-wrapper {
+    .user {
+      background-color: #e0cfc2;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      align-self: flex-start;
+    }
+
+    .chat-input {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100% - 70px);
       padding: 1rem;
+      background-color: #ffffff;
+      border-top: 1px solid #e2ddd5;
     }
 
-    #webchat {
-      width: 100%;
-      max-width: 900px;
-      height: 90vh;
+    .chat-input input {
+      flex-grow: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .chat-input button {
+      margin-left: 1rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #6a4d3b;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .chat-input button:hover {
+      background-color: #543c2b;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <h1>ThinkTrek AI</h1>
-    <div class="buttons">
-      <button onclick="location.reload()">New Chat</button>
-      <button>☰</button>
+  <div class="container">
+    <div class="header">
+      <button class="icon-button">☰</button>
+      <div>ThinkTrek AI</div>
+      <button class="icon-button">New Chat</button>
+    </div>
+
+    <div id="chat" class="chat-window">
+      <div class="chat-bubble bot">Hi! I'm ThinkTrek AI — your biology tutor 🤖</div>
+    </div>
+
+    <div class="chat-input">
+      <input id="userInput" type="text" placeholder="Ask me anything..." />
+      <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
-  <div class="chat-wrapper">
-    <div id="webchat"></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@botfront/rasa-webchat/lib/index.js"></script>
   <script>
-    WebChat.default({
-      selector: "#webchat",
-      initPayload: "/greet",
-      socketUrl: "https://thinktrek-web.onrender.com",
-      socketPath: "/socket.io/",
-      customData: {},
-      title: "ThinkTrek AI",
-      subtitle: "Your biology tutor",
-      inputTextFieldHint: "Ask a biology question...",
-      showFullScreenButton: true,
-      profileAvatar: "https://cdn-icons-png.flaticon.com/512/4712/4712104.png"
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('userInput');
+
+    function addMessage(message, sender) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('chat-bubble', sender);
+      bubble.innerText = message;
+      chat.appendChild(bubble);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendMessage() {
+      const msg = userInput.value.trim();
+      if (msg === '') return;
+
+      addMessage(msg, 'user');
+      userInput.value = '';
+
+      // Send to Rasa
+      fetch('https://thinktrek-web.onrender.com/webhooks/rest/webhook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'user', message: msg })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const botReply = data.map(d => d.text).join('\n');
+        addMessage(botReply || '🤖 (No response)', 'bot');
+      })
+      .catch(err => {
+        console.error(err);
+        addMessage('Oops! Something went wrong.', 'bot');
+      });
+    }
+
+    // Optional: Enter key to send
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
     });
   </script>
 </body>
