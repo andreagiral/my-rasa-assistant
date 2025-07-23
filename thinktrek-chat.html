@@ -305,22 +305,27 @@
       userInput.value = '';
       loader.style.display = 'block';
 
-      fetch('https://thinktrek-web.onrender.com', {
+      fetch('https://thinktrek-web.onrender.com/webhooks/rest/webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sender: 'user', message: msg })
       })
-        .then(res => res.json())
-        .then(data => {
-          loader.style.display = 'none';
-          const botReply = data.map(d => d.text).join('\n');
-          addMessage(botReply || '🤖 (No response)', 'bot');
-        })
-        .catch(err => {
-          loader.style.display = 'none';
-          console.error(err);
-          addMessage('Oops! Something went wrong.', 'bot');
-        });
+      .then(res => {
+        console.log("Raw response:", res);
+        return res.json();
+      })
+      .then(data => {
+        console.log("Parsed response:", data);
+        loader.style.display = 'none';
+        const botReply = data.map(d => d.text).join('\n');
+        addMessage(botReply || '🤖 (No response)', 'bot');
+      })
+      .catch(err => {
+        loader.style.display = 'none';
+        console.error("Fetch error:", err);
+        addMessage('Oops! Something went wrong.', 'bot');
+      });
+
     }
 
     userInput.addEventListener('keypress', function(e) {

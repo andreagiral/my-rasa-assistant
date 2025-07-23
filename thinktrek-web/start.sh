@@ -7,5 +7,6 @@ rasa run --enable-api \
          --port 5005 \
          --endpoints endpoints_render.yml \
          --debug
+         --model models \
 
 echo "❌ Rasa Web Server exited unexpectedly."
