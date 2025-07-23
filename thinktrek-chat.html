@@ -1,3 +1,4 @@
+<!-- Triggering redeploy -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,10 +156,7 @@
 <body>
   <div id="sidebar">
     <h3>My Projects</h3>
-    <ul>
-      <li>Capstone #1</li>
-      <li>Capstone #2</li>
-    </ul>
+    <ul></ul>
     <button onclick="toggleSidebar()">Close</button>
   </div>
 
@@ -169,7 +167,7 @@
         ThinkTrek AI
         <a href="https://openstax.org/books/biology-2e/pages/1-introduction" class="badge" target="_blank">OpenStax</a>
       </div>
-      <button class="icon-button" onclick="newChat()">New Chat</button>
+      <button class="icon-button" onclick="window.open(window.location.href, '_blank')">New Chat</button>
     </div>
 
     <div id="chat" class="chat-window">
@@ -205,7 +203,7 @@
       userInput.value = '';
       loader.style.display = 'block';
 
-      fetch('https://thinktrek-web.onrender.com', {
+      fetch('https://thinktrek-actions.onrender.com/webhooks/rest/webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sender: 'user', message: msg })
@@ -226,11 +224,6 @@
     userInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') sendMessage();
     });
-
-    function newChat() {
-      chat.innerHTML = '';
-      addMessage("Hi! I'm ThinkTrek AI — your biology tutor 🤖", 'bot');
-    }
 
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
