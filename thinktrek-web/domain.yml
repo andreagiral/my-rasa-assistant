@@ -16,6 +16,7 @@ intents:
   - suggest_improvement
   - progress_prompt
   - ask_bio_content
+  - default
 
 
 responses:
