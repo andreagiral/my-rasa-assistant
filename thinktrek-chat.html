@@ -31,6 +31,21 @@
       border-bottom: 1px solid #eee;
     }
 
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #5c443a;
+    }
+
+     header button {
+      background-color: #5c443a;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
     .chat-window {
       flex-grow: 1;
       padding: 1rem 2rem;
@@ -136,7 +151,7 @@
       userInput.value = '';
 
       // Send to Rasa
-      fetch('https://thinktrek-web.onrender.com/webhooks/rest/webhook', {
+      fetch('https://thinktrek-web.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sender: 'user', message: msg })
@@ -159,3 +174,33 @@
   </script>
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/@botfront/rasa-webchat/lib/index.js"></script>
+  <script>
+    let chatInstance = null;
+
+    function startChat() {
+      if (chatInstance) {
+        chatInstance.close();
+      }
+      chatInstance = WebChat.default({
+        selector: "#webchat",
+        initPayload: "/greet",
+        customData: { language: "en" },
+        socketUrl: "https://thinktrek-web.onrender.com",
+        socketPath: "/socket.io/",
+        title: "ThinkTrek AI",
+        subtitle: "Your biology tutor",
+      });
+    }
+
+    document.getElementById("new-chat-btn").addEventListener("click", () => {
+      document.querySelector("#webchat").innerHTML = "";
+      startChat();
+    });
+
+    startChat();
+  </script>
+</body>
+</html>
+
