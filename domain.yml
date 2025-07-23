@@ -17,7 +17,7 @@ intents:
   - progress_prompt
   - ask_bio_content
   - default
-  - ask_excercise_help
+  - ask_exercise_help
 
 
 responses:

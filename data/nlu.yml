@@ -163,7 +163,7 @@ nlu:
     - can you show me chapter 13
     - I need help with chapter 14     
 
-- intent: ask_excercise_help
+- intent: ask_exercise_help
   examples: |
     - I need help with my exercise
     - can you guide me through the exercise?
