@@ -1,0 +1,17 @@
+{
+  "0": "ask_bio_content",
+  "1": "ask_bio_question",
+  "2": "ask_capstone",
+  "3": "ask_exercise_help",
+  "4": "get_motivated",
+  "5": "goodbye",
+  "6": "greet",
+  "7": "progress_prompt",
+  "8": "provide_feedback",
+  "9": "request_clarification",
+  "10": "request_help",
+  "11": "request_resource",
+  "12": "show_progress",
+  "13": "start_socratic_mode",
+  "14": "suggest_improvement"
+}
