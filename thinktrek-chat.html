@@ -305,7 +305,7 @@
       userInput.value = '';
       loader.style.display = 'block';
 
-      fetch('https://thinktrek-web.onrender.com/webhooks/rest/webhook', {
+      fetch('https://thinktrek-web.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sender: 'user', message: msg })
@@ -342,8 +342,8 @@
         <span class='history-actions'>
           <button class='icon-button'>⋮</button>
           <div class='history-menu'>
-            <button onclick="restoreChat('${title}')">📌 Pin</button>
-            <button onclick="deleteChat('${title}')">🗑️ Delete</button>
+            <button onclick="restoreChat('${title}')"> Pin</button>
+            <button onclick="deleteChat('${title}')"> Delete</button>
           </div>
         </span>
       </span>`;
@@ -352,7 +352,7 @@
       chatHistory = [];
       localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
       localStorage.setItem(`chat_${title}`, JSON.stringify(chatHistory));
-      addMessage("Hi! I'm ThinkTrek AI — your biology tutor 🤖", 'bot');
+      addMessage("Hi! I'm ThinkTrek AI — your biology tutor", 'bot');
     }
 
     function restoreChat(title) {
