@@ -6,7 +6,7 @@ rasa run --enable-api \
          --cors "*" \
          --port 5005 \
          --endpoints endpoints_render.yml \
-         --debug
+         --debug \
          --model models \
 
 echo "❌ Rasa Web Server exited unexpectedly."
