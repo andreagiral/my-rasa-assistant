@@ -285,8 +285,19 @@
         .then(res => res.json())
         .then(data => {
           loader.style.display = 'none';
-          const botReply = data.map(d => d.text).join('\n');
-          addMessage(botReply || '🤖 (No response)', 'bot');
+          if (Array.isArray(data) && data.length > 0) {
+            data.forEach(response => {
+              if (response.text) {
+                addMessage(response.text, 'bot');
+              } else if (response.image) {
+                addMessage('[Image]', 'bot'); // Handle future enhancements
+              } else {
+                addMessage('🤖 (No text response)', 'bot');
+              }
+            });
+          } else {
+            addMessage('🤖 (No response)', 'bot');
+          }
         })
         .catch(err => {
           loader.style.display = 'none';
