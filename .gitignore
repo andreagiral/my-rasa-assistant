@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 
 # Ignore model files and environment secrets
-models/
+#/models/
 .env
 
 # VS Code and system files
