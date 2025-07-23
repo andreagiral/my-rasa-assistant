@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os 
 from openai import OpenAI
 import logging
-from typing import Any, Text, Dict, List
+from typing import Any, Optional, Text, Dict, List
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -31,13 +31,16 @@ def fetch_html_from_s3(key: str) -> str:
         return ""
     
 
-def summarize_or_answer(prompt: str, context: str) -> str:
+def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] = None) -> str:
     try:
-        logger.info(f"[OpenAI CALL] prompt: {prompt}")
+        logger.info(f"[OpenAI CALL] prompt: {prompt[:100]}...")
+        system_message = system_prompt or (
+            "You are a helpful biology tutor who answers student questions using the OpenStax Biology 2e textbook."
+        )
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful biology tutor who answers student questions using the OpenStax Biology 2e textbook."},
+                {"role": "system", "content": system_message},
                 {"role": "user", "content": f"{prompt}\n\nUse the following context:\n{context}"}
             ],
             max_tokens=400,
@@ -67,6 +70,63 @@ class ActionGetCapstoneIdea(Action):
         response = summarize_or_answer(prompt, context)
         dispatcher.utter_message(response or "Sorry, I couldn't generate a capstone idea right now.")
         return []
+class ActionExerciseHelper(Action):
+    def name(self) -> str:
+        return "action_exercise_helper"
+
+    async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> List[Dict[Text, Any]]:
+        user_input = tracker.latest_message.get("text") or ""
+
+        # 1. Get textbook context
+        section_match = re.search(r"\b(\d{1,2})\.(\d)\b", user_input)
+        chapter_match = re.search(r"chapter\s+(\d{1,2})", user_input.lower())
+        s3_key = None
+        if section_match:
+            chapter, section = section_match.groups()
+            unit = self.get_unit_for_chapter(int(chapter))
+            s3_key = f"openstax_bio2e_chps/Unit {unit}/Chapter {int(chapter)}/{chapter}.{section}.html"
+        elif chapter_match:
+            chapter = int(chapter_match.group(1))
+            unit = self.get_unit_for_chapter(chapter)
+            s3_key = f"openstax_bio2e_chps/Unit {unit}/Chapter {chapter}/chapter-{chapter}.html"
+        else:
+            # Default to Chapter 1 if no chapter info found
+            s3_key = "openstax_bio2e_chps/Unit 1/Chapter 1/chapter-1.html"
+
+        context = fetch_html_from_s3(s3_key)[:4000]
+        if not context:
+            dispatcher.utter_message("Sorry, I couldn't retrieve the textbook content right now.")
+            return []
+
+        # 2. Socratic-style prompt
+        socratic_prompt = (
+            "You are a helpful and intelligent biology tutor. The student may ask for either guidance or direct help.\n\n"
+            "If the student seems unsure or exploratory, use Socratic-style questioning to lead them to answers.\n"
+            "If the student asks clearly for help or explanation, provide a direct and accurate response.\n\n"
+            "Use biological knowledge from the following lesson content. Keep your tone friendly and encouraging."
+            "Act as a Socratic biology tutor guiding a high school student. "
+            "Instead of giving direct answers, ask thought-provoking questions to help the student think critically. "
+            "Encourage connections between the student's activity and biological systems. "
+        )
+
+        # 3. Ask OpenAI
+        reply = summarize_or_answer(user_input, context=context[:4000], system_prompt=socratic_prompt)
+
+        # 4. Respond
+        dispatcher.utter_message(reply or "I'm thinking hard, but I need more input. Can you clarify?")
+        return []
+    
+    def get_unit_for_chapter(self, chapter: int) -> int:
+        if 1 <= chapter <= 3: return 1
+        if 4 <= chapter <= 10: return 2
+        if 11 <= chapter <= 17: return 3
+        if 18 <= chapter <= 20: return 4
+        if 21 <= chapter <= 29: return 5
+        if 30 <= chapter <= 32: return 6
+        if 33 <= chapter <= 43: return 7
+        if 44 <= chapter <= 47: return 8
+        return 1
+
 
 class ActionGetBioContent(Action):
     def name(self) -> Text:
