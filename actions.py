@@ -11,7 +11,7 @@ from openai import OpenAI
 import logging
 from typing import Any, Optional, Text, Dict, List
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 logging.basicConfig(level=logging.INFO)
@@ -204,7 +204,7 @@ class ActionLogAndRespond(Action):
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain) -> List[Dict[Text, Any]]:
         user_msg = tracker.latest_message.get('text')
         response = "This is ThinkTrek AI’s response."  # Replace with your actual logic
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         user_id = tracker.sender_id
         session_id = tracker.sender_id  # Or generate another session ID
 
