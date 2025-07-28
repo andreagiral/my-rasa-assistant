@@ -27,6 +27,11 @@ rules:
     - intent: ask_exercise_help
     - action: action_exercise_helper
 
+- rule: log and respond to user input
+  steps:
+    - intent: ask_bio_question
+    - action: action_log_and_respond
+
 
 
 

@@ -10,6 +10,9 @@ import os
 from openai import OpenAI
 import logging
 from typing import Any, Optional, Text, Dict, List
+import sqlite3
+from datetime import datetime
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,7 +33,6 @@ def fetch_html_from_s3(key: str) -> str:
         logger.warning(f"[S3 ERROR] Failed to retrieve {key}: {e}")
         return ""
     
-
 def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] = None) -> str:
     try:
         logger.info(f"[OpenAI CALL] prompt: {prompt[:100]}...")
@@ -126,8 +128,6 @@ class ActionExerciseHelper(Action):
         if 33 <= chapter <= 43: return 7
         if 44 <= chapter <= 47: return 8
         return 1
-
-
 class ActionGetBioContent(Action):
     def name(self) -> Text:
         print ("Registering ActionGetBioContent")
@@ -197,3 +197,26 @@ class ActionGetBioContent(Action):
         if 33 <= chapter <= 43: return 7
         if 44 <= chapter <= 47: return 8
         return 1
+class ActionLogAndRespond(Action):
+    def name(self):
+        return "action_log_and_respond"
+
+    async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain) -> List[Dict[Text, Any]]:
+        user_msg = tracker.latest_message.get('text')
+        response = "This is ThinkTrek AI’s response."  # Replace with your actual logic
+        timestamp = datetime.utcnow().isoformat()
+        user_id = tracker.sender_id
+        session_id = tracker.sender_id  # Or generate another session ID
+
+        # Store in SQLite DB
+        conn = sqlite3.connect("thinktrek_logs.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, timestamp, user_msg, response, "OpenStax Chapter 1", session_id))
+        conn.commit()
+        conn.close()
+
+        dispatcher.utter_message(text=response)
+        return []

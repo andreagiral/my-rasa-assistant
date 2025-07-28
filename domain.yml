@@ -60,3 +60,4 @@ actions:
   - action_get_bio_content
   - action_get_capstone_idea
   - action_exercise_helper
+  - action_log_and_respond
