@@ -1,2 +1,7 @@
 action_endpoint:
   url: "https://thinktrek-actions.onrender.com/webhook"
+
+cors:
+  enabled: true
+  origins:
+    - "https://horse-rabbit-rdgx.squarespace.com"
