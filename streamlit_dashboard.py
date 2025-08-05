@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 
-st.title("📊 ThinkTrek AI - Instructor Dashboard")
+st.title("📊 Think-Trek AI - Instructor Dashboard")
 
 conn = sqlite3.connect("thinktrek_logs.db")
 df = pd.read_sql_query("SELECT * FROM chat_logs", conn)
