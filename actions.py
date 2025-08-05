@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os 
 from openai import OpenAI
 import logging
-from typing import Any, Optional, Text, Dict, List
+from typing import Any, Optional, Text, Dict, List, Tuple
 import sqlite3
 from datetime import datetime, timezone
 
@@ -32,8 +32,8 @@ def fetch_html_from_s3(key: str) -> str:
     except ClientError as e:
         logger.warning(f"[S3 ERROR] Failed to retrieve {key}: {e}")
         return ""
-    
-def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] = None) -> str:
+
+def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] = None, source_ref: Optional[str] = None) -> Tuple[str, str]:
     try:
         logger.info(f"[OpenAI CALL] prompt: {prompt[:100]}...")
         system_message = system_prompt or (
@@ -48,16 +48,12 @@ def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] 
             max_tokens=400,
             temperature=0.7
         )
-        content = response.choices[0].message.content
-        if content:
-            logger.info(f"[OpenAI RESPONSE] {content[:100]}...")
-            return content.strip()
-        else:
-            logger.warning("[OpenAI WARNING] Empty content received.")
-            return "Sorry, I couldn't generate a response at the moment."
+        content = response.choices[0].message.content or ""
+        source_note = f"\n\n *Source: {source_ref or 'OpenStax Biology 2e'}*"
+        return content + source_note, source_ref or "OpenStax Biology 2e"
     except Exception as e:
         logger.error(f"[OpenAI ERROR] {e}")
-        return "Sorry, an error occurred while contacting OpenAI."
+        return "Sorry, an error occurred while contacting OpenAI.", ""
 
 class ActionGetCapstoneIdea(Action):
     def name(self) -> Text:
@@ -69,9 +65,22 @@ class ActionGetCapstoneIdea(Action):
         topic = match.group(2) if match else "a biology topic"
         prompt = f"Suggest a creative, high school-level capstone project idea based on the topic: {topic}."
         context = "Topics should be grounded in biology and based on OpenStax Biology 2e where possible."
-        response = summarize_or_answer(prompt, context)
+        response, citation = summarize_or_answer(prompt, context, source_ref="OpenStax Biology 2e")
         dispatcher.utter_message(response or "Sorry, I couldn't generate a capstone idea right now.")
+        self.log_interaction(tracker.sender_id, user_message, response, citation)
         return []
+    
+    def log_interaction(self, user_id, user_msg, bot_response, source):
+        timestamp = datetime.now(timezone.utc).isoformat()
+        conn = sqlite3.connect("thinktrek_logs.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
+        conn.commit()
+        conn.close()
+
 class ActionExerciseHelper(Action):
     def name(self) -> str:
         return "action_exercise_helper"
@@ -112,10 +121,9 @@ class ActionExerciseHelper(Action):
         )
 
         # 3. Ask OpenAI
-        reply = summarize_or_answer(user_input, context=context[:4000], system_prompt=socratic_prompt)
-
-        # 4. Respond
+        reply, citation = summarize_or_answer(user_input, context[:4000], system_prompt=socratic_prompt, source_ref=s3_key)
         dispatcher.utter_message(reply or "I'm thinking hard, but I need more input. Can you clarify?")
+        self.log_interaction(tracker.sender_id, user_input, reply, citation)
         return []
     
     def get_unit_for_chapter(self, chapter: int) -> int:
@@ -128,6 +136,18 @@ class ActionExerciseHelper(Action):
         if 33 <= chapter <= 43: return 7
         if 44 <= chapter <= 47: return 8
         return 1
+    
+    def log_interaction(self, user_id, user_msg, bot_response, source):
+        timestamp = datetime.now(timezone.utc).isoformat()
+        conn = sqlite3.connect("thinktrek_logs.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
+        conn.commit()
+        conn.close()
+
 class ActionGetBioContent(Action):
     def name(self) -> Text:
         print ("Registering ActionGetBioContent")
@@ -165,8 +185,9 @@ class ActionGetBioContent(Action):
         else:
             # General fallback question to OpenAI
             prompt = f"Answer this biology question clearly for a student: {user_message}"
-            response = summarize_or_answer(prompt, context="")
+            response, citation = summarize_or_answer(prompt, context="")
             dispatcher.utter_message(response or "Sorry, I couldn’t answer that right now.")
+            self.log_interaction(tracker.sender_id, user_message, response, citation)
             return []
 
         logger.info(f"[DEBUG] S3 key: {s3_key}")
@@ -174,9 +195,11 @@ class ActionGetBioContent(Action):
 
         if not html:
             prompt = f"The student asked: '{user_message}'. Please answer as best you can based on general biology knowledge."
-            fallback = summarize_or_answer(prompt, context="")
+            fallback, citation = summarize_or_answer(prompt, context="", source_ref="OpenStax Biology 2e")
             dispatcher.utter_message(fallback)
+            self.log_interaction(tracker.sender_id, user_message, fallback, citation)
             return []
+
 
         soup = BeautifulSoup(html, "html.parser")
         main = soup.find("main") or soup.body
@@ -184,7 +207,10 @@ class ActionGetBioContent(Action):
         filtered = [line for line in text.splitlines() if not any(x in line.lower() for x in ["cookie", "consent", "privacy policy"])]
         cleaned = "\n".join(filtered)
         output = cleaned[:800] + "..." if len(cleaned) > 800 else cleaned
+        citation = s3_key or "OpenStax Biology 2e"
+        output += f"\n\n *Source: {citation}*"
         dispatcher.utter_message(output)
+        self.log_interaction(tracker.sender_id, user_message, output, citation)
         return []
 
     def get_unit_for_chapter(self, chapter: int) -> int:
@@ -197,6 +223,18 @@ class ActionGetBioContent(Action):
         if 33 <= chapter <= 43: return 7
         if 44 <= chapter <= 47: return 8
         return 1
+    
+    def log_interaction(self, user_id, user_msg, bot_response, source):
+        timestamp = datetime.now(timezone.utc).isoformat()
+        conn = sqlite3.connect("thinktrek_logs.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
+        conn.commit()
+        conn.close()
+
 class ActionLogAndRespond(Action):
     def name(self):
         return "action_log_and_respond"

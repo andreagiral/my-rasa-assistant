@@ -18,4 +18,6 @@ df['date'] = pd.to_datetime(df['timestamp']).dt.date
 daily = df.groupby('date').size()
 st.bar_chart(daily)
 
+st.dataframe(df[['timestamp', 'user_question', 'bot_response', 'source_reference']])
+
 st.download_button("Download Logs", filtered.to_csv(index=False), file_name="chat_logs.csv")

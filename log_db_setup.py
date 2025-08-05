@@ -17,3 +17,4 @@ CREATE TABLE IF NOT EXISTS chat_logs (
 
 conn.commit()
 conn.close()
+print("Database setup complete.")
