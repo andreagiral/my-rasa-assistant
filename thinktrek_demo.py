@@ -31,7 +31,7 @@ if user_input:
         response = requests.post(
             "https://thinktrek-web.onrender.com/webhooks/rest/webhook",
             json={"sender": "student-user", "message": user_input},
-            timeout=10
+            timeout=60
         )
         response.raise_for_status()
         data = response.json()
