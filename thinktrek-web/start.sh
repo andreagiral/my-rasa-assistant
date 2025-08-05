@@ -5,9 +5,9 @@ echo "Rasa version: $(rasa --version)"
 rasa run --enable-api \
          --cors "*" \
          --port 5005 \
-         --model thinktrek-web/models/latest.tar.gz \
+         --model ../models/latest.tar.gz \
          --endpoints thinktrek-web/endpoints_render.yml \
-         --credentials credentials.yml \
+         --credentials ../credentials.yml \
          --debug \
 
 echo "❌ Rasa Web Server exited unexpectedly."
