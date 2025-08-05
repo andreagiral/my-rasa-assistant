@@ -4,3 +4,5 @@ boto3
 python-dotenv
 beautifulsoup4
 rasa_sdk
+streamlit
+requests
