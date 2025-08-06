@@ -11,7 +11,6 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
-
 - rule: Respond with chapter content
   steps:
   - intent: ask_bio_content
@@ -31,6 +30,10 @@ rules:
   steps:
     - intent: ask_bio_question
     - action: action_log_and_respond
+
+
+
+
 
 
 
