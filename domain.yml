@@ -64,5 +64,4 @@ actions:
 slots:
   confirm_correction:
     type: text
-    mappings:
-      - type: from_text
+    influence_conversation: false
