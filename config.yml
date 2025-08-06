@@ -47,6 +47,7 @@ language: en
 #     constrain_similarities: true
 
 pipeline:
+  - name: NLUCommandAdapter
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
