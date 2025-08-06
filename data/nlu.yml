@@ -188,5 +188,10 @@ nlu:
     - I need help describing the biological effects of my challenge.
     - Can you help me identify which systems are affected by soccer?
     - What happens to my organs when I do yoga?
+    - I picked [swim five miles in the ocean](activity)
+    - Based on my challenge of [swim five miles in the ocean](activity)
+    - What systems are used in [swim five miles in the ocean](activity)?
+    - Can you map out levels of biological organization for [swim five miles in the ocean](activity)?
+
 
     
