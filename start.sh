@@ -5,7 +5,7 @@ echo "Rasa version: $(rasa --version)"
 rasa run --enable-api \
          --cors "*" \
          --port 5005 \
-         --model models/AI2.3.tar.gz \
+         --model models \
          --endpoints endpoints.yml \
          --credentials credentials.yml \
          --debug \
