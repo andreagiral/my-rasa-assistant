@@ -96,7 +96,7 @@ class ActionGetCapstoneIdea(BaseBioAction):
     # Upload the DB to S3 for Streamlit access
 
 class ActionExerciseHelper(BaseBioAction):
-    def name(self) -> str:
+    def name(self) -> Text:
         return "action_exercise_helper"
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> List[Dict[Text, Any]]:
@@ -207,7 +207,7 @@ class ActionGetBioContent(BaseBioAction):
         return []
 
 class ActionLogAndRespond(BaseBioAction):
-    def name(self):
+    def name(self) -> Text:
         return "action_log_and_respond"
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain) -> List[Dict[Text, Any]]:
