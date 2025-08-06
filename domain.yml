@@ -61,9 +61,3 @@ actions:
   - action_exercise_helper
   - action_log_and_respond
 
-slots:
-  confirm_correction:
-    type: any
-    mappings:
-      - type: from_trigger_intent
-        value: true
