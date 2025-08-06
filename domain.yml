@@ -65,4 +65,5 @@ slots:
   confirm_correction:
     type: any
     mappings:
-      - type: from_text
+      - type: from_trigger_intent
+        value: true
