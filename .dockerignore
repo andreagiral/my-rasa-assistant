@@ -2,5 +2,4 @@ __pycache__/
 *.pyc
 .venv/
 .rasa/
-*.tar.gz
 .DS_Store
