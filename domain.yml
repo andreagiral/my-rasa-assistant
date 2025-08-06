@@ -61,3 +61,6 @@ actions:
   - action_exercise_helper
   - action_log_and_respond
 
+slots:
+  confirm_correction:
+    type: text
