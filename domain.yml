@@ -44,7 +44,8 @@ responses:
     - text: "Thank you for your suggestion! We'll consider it for future improvements." 
   utter_progress_prompt:
     - text: "You're doing great! Want to review what you've done or see your next checkpoint?"
- 
+  utter_ask_exercise_help:
+    - text: "Sure! What exercise or challenge do you need help with?"
   
   
 actions:

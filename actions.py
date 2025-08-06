@@ -88,6 +88,13 @@ class ActionExerciseHelper(Action):
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> List[Dict[Text, Any]]:
         user_input = tracker.latest_message.get("text") or ""
+        # Ensure we frame it as an exercise challenge
+        activity_context = f"The student picked the challenge: {user_input}\n"
+        enriched_prompt = (
+            activity_context +
+            "Please use the following lesson to guide your explanation. "
+            "If the student asks a question, you may guide them Socratically or provide a helpful explanation."
+        )
 
         # 1. Get textbook context
         section_match = re.search(r"\b(\d{1,2})\.(\d)\b", user_input)
@@ -122,7 +129,7 @@ class ActionExerciseHelper(Action):
         )
 
         # 3. Ask OpenAI
-        reply, citation = summarize_or_answer(user_input, context[:4000], system_prompt=socratic_prompt, source_ref=s3_key)
+        reply, citation = summarize_or_answer(enriched_prompt, context[:4000], system_prompt=socratic_prompt, source_ref=s3_key)
         dispatcher.utter_message(reply or "I'm thinking hard, but I need more input. Can you clarify?")
         self.log_interaction(tracker.sender_id, user_input, reply, citation)
         return []
