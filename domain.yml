@@ -1,11 +1,5 @@
 version: "3.1"
 
-slots:
-  confirm_correction:
-    type: any
-    mappings:
-      - type: from_text
-
 intents:
   - greet
   - goodbye
@@ -66,3 +60,9 @@ actions:
   - action_get_capstone_idea
   - action_exercise_helper
   - action_log_and_respond
+
+slots:
+  confirm_correction:
+    type: any
+    mappings:
+      - type: from_text
