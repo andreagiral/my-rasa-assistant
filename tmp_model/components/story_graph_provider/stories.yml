@@ -1,0 +1,67 @@
+version: "3.1"
+stories:
+- story: Resource Request Story
+  steps:
+  - intent: request_resource
+  - action: utter_request_resource
+- story: Socratic Mode Story
+  steps:
+  - intent: start_socratic_mode
+  - action: utter_start_socratic_mode
+- story: Motivation Boost Story
+  steps:
+  - intent: get_motivated
+  - action: utter_get_motivated
+- story: Progress Check Story
+  steps:
+  - intent: show_progress
+  - action: utter_show_progress
+- story: Help Request Story
+  steps:
+  - intent: request_help
+  - action: utter_request_help
+- story: Clarification Request Story
+  steps:
+  - intent: request_clarification
+  - action: utter_request_clarification
+- story: Provide Feedback Story
+  steps:
+  - intent: provide_feedback
+  - action: utter_provide_feedback
+- story: Suggest Improvement Story
+  steps:
+  - intent: suggest_improvement
+  - action: utter_suggest_improvement
+- story: Progress Prompt Story
+  steps:
+  - intent: progress_prompt
+  - action: utter_progress_prompt
+- story: respond to bio question
+  steps:
+  - intent: ask_bio_content
+  - action: action_get_bio_content
+rules:
+- rule: Say hi when greeted
+  steps:
+  - intent: greet
+  - action: utter_greet
+- rule: Say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+- rule: Respond with chapter content
+  steps:
+  - intent: ask_bio_content
+  - action: action_get_bio_content
+- rule: Handle capstone ideas
+  steps:
+  - intent: ask_capstone
+  - action: action_get_capstone_idea
+- rule: Handle exercise help requests
+  steps:
+  - intent: ask_exercise_help
+  - action: action_exercise_helper
+- rule: log and respond to user input
+  steps:
+  - intent: ask_bio_question
+  - action: action_log_and_respond

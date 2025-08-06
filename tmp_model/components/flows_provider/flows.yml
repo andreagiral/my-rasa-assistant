@@ -1,0 +1,538 @@
+flows:
+  greet_flow:
+    steps:
+    - id: greet_flow_0_utter_greet
+      next: END
+      metadata:
+        line_numbers: 10-11
+      action: utter_greet
+    description: Handle initial greeting and welcome message.
+    nlu_trigger:
+    - intent:
+        name: greet
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  goodbye_flow:
+    steps:
+    - id: goodbye_flow_0_utter_goodbye
+      next: END
+      metadata:
+        line_numbers: 17-18
+      action: utter_goodbye
+    description: End the conversation with encouragement.
+    nlu_trigger:
+    - intent:
+        name: goodbye
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  capstone_help_flow:
+    steps:
+    - id: capstone_help_flow_0_utter_ask_capstone_help
+      next: END
+      metadata:
+        line_numbers: 24-25
+      action: utter_ask_capstone_help
+    description: Assist students with questions about their capstone project.
+    nlu_trigger:
+    - intent:
+        name: ask_capstone_help
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  bio_question_flow:
+    steps:
+    - id: bio_question_flow_0_utter_ask_bio_question
+      next: END
+      metadata:
+        line_numbers: 31-32
+      action: utter_ask_bio_question
+    description: Handle questions related to biology topics.
+    nlu_trigger:
+    - intent:
+        name: ask_bio_question
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  resource_request_flow:
+    steps:
+    - id: resource_request_flow_0_utter_request_resource
+      next: END
+      metadata:
+        line_numbers: 38-39
+      action: utter_request_resource
+    description: Provide study resources like diagrams, videos, or flashcards.
+    nlu_trigger:
+    - intent:
+        name: request_resource
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  socratic_mode_flow:
+    steps:
+    - id: socratic_mode_flow_0_utter_start_socratic_mode
+      next: END
+      metadata:
+        line_numbers: 45-46
+      action: utter_start_socratic_mode
+    description: Activate Socratic mode to challenge students with deep critical thinking questions.
+    nlu_trigger:
+    - intent:
+        name: start_socratic_mode
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  progress_check_flow:
+    steps:
+    - id: progress_check_flow_0_utter_show_progress
+      next: END
+      metadata:
+        line_numbers: 52-53
+      action: utter_show_progress
+    description: Show user progress and checkpoints.
+    nlu_trigger:
+    - intent:
+        name: show_progress
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  motivation_boost_flow:
+    steps:
+    - id: motivation_boost_flow_0_utter_get_motivated
+      next: END
+      metadata:
+        line_numbers: 59-60
+      action: utter_get_motivated
+    description: Provide motivational feedback using ARCS theory.
+    nlu_trigger:
+    - intent:
+        name: get_motivated
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  help_request_flow:
+    steps:
+    - id: help_request_flow_0_utter_request_help
+      next: END
+      metadata:
+        line_numbers: 66-67
+      action: utter_request_help
+    description: Offer support for general help inquiries.
+    nlu_trigger:
+    - intent:
+        name: request_help
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  clarification_flow:
+    steps:
+    - id: clarification_flow_0_utter_request_clarification
+      next: END
+      metadata:
+        line_numbers: 73-74
+      action: utter_request_clarification
+    description: Ask user to clarify or explain further.
+    nlu_trigger:
+    - intent:
+        name: request_clarification
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  feedback_flow:
+    steps:
+    - id: feedback_flow_0_utter_provide_feedback
+      next: END
+      metadata:
+        line_numbers: 80-81
+      action: utter_provide_feedback
+    description: Accept feedback from the user about the assistant.
+    nlu_trigger:
+    - intent:
+        name: provide_feedback
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  improvement_suggestion_flow:
+    steps:
+    - id: improvement_suggestion_flow_0_utter_suggest_improvement
+      next: END
+      metadata:
+        line_numbers: 87-88
+      action: utter_suggest_improvement
+    description: Handle suggestions from the user to improve the experience.
+    nlu_trigger:
+    - intent:
+        name: suggest_improvement
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  progress_prompt_flow:
+    steps:
+    - id: progress_prompt_flow_0_utter_progress_prompt
+      next: END
+      metadata:
+        line_numbers: 94-94
+      action: utter_progress_prompt
+    description: Prompt user to reflect on or continue progress.
+    nlu_trigger:
+    - intent:
+        name: progress_prompt
+        confidence_threshold: 0.0
+    file_path: data\flows.yml
+    run_pattern_completed: true
+  pattern_cancel_flow:
+    steps:
+    - id: pattern_cancel_flow_0_action_cancel_flow
+      next: pattern_cancel_flow_1_utter_flow_cancelled_rasa
+      metadata:
+        line_numbers: 128-128
+      action: action_cancel_flow
+    - id: pattern_cancel_flow_1_utter_flow_cancelled_rasa
+      next: END
+      metadata:
+        line_numbers: 129-130
+      action: utter_flow_cancelled_rasa
+    name: pattern_cancel_flow
+    description: Conversation repair flow that starts when a flow is cancelled
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_cannot_handle:
+    steps:
+    - id: pattern_cannot_handle_0_noop
+      next:
+      - if: "'{{context.reason}}' = 'cannot_handle_chitchat'"
+        then:
+        - id: pattern_cannot_handle_1_utter_cannot_handle
+          next: END
+          metadata:
+            line_numbers: 141-143
+          action: utter_cannot_handle
+      - if: "'{{context.reason}}' = 'cannot_handle_not_supported'"
+        then:
+        - id: pattern_cannot_handle_2_utter_cannot_handle
+          next: END
+          metadata:
+            line_numbers: 146-148
+          action: utter_cannot_handle
+      - else:
+        - id: pattern_cannot_handle_3_utter_ask_rephrase
+          next: END
+          metadata:
+            line_numbers: 150-152
+          action: utter_ask_rephrase
+      metadata:
+        line_numbers: 136-152
+      noop: true
+    name: pattern cannot handle
+    description: "Conversation repair flow for addressing failed command generation scenarios\n"
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_chitchat:
+    steps:
+    - id: pattern_chitchat_0_action_trigger_chitchat
+      next: END
+      metadata:
+        line_numbers: 157-158
+      action: action_trigger_chitchat
+    name: pattern chitchat
+    description: Conversation repair flow for off-topic interactions that won't disrupt the main conversation
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_clarification:
+    steps:
+    - id: pattern_clarification_0_action_clarify_flows
+      next: pattern_clarification_1_utter_clarification_options_rasa
+      metadata:
+        line_numbers: 163-163
+      action: action_clarify_flows
+    - id: pattern_clarification_1_utter_clarification_options_rasa
+      next: END
+      metadata:
+        line_numbers: 164-165
+      action: utter_clarification_options_rasa
+    name: pattern clarification
+    description: Conversation repair flow for handling ambiguous requests that could match multiple flows
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_code_change:
+    steps:
+    - id: pattern_code_change_0_utter_inform_code_change
+      next: pattern_code_change_1_action_clean_stack
+      metadata:
+        line_numbers: 170-170
+      action: utter_inform_code_change
+    - id: pattern_code_change_1_action_clean_stack
+      next: END
+      metadata:
+        line_numbers: 171-172
+      action: action_clean_stack
+    name: pattern code change
+    description: Conversation repair flow for cleaning the stack after an assistant update
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_collect_information:
+    steps:
+    - id: start
+      next: pattern_collect_information_1_validate_{{context.collect}}
+      metadata:
+        line_numbers: 177-178
+      action: action_run_slot_rejections
+    - id: pattern_collect_information_1_validate_{{context.collect}}
+      next:
+      - if: slots.{{context.collect}} is not null
+        then: END
+      - else: ask_collect
+      metadata:
+        line_numbers: 179-183
+      action: validate_{{context.collect}}
+    - id: ask_collect
+      next: pattern_collect_information_3_{{context.collect_action}}
+      metadata:
+        line_numbers: 184-185
+      action: '{{context.utter}}'
+    - id: pattern_collect_information_3_{{context.collect_action}}
+      next: pattern_collect_information_4_action_listen
+      metadata:
+        line_numbers: 186-186
+      action: '{{context.collect_action}}'
+    - id: pattern_collect_information_4_action_listen
+      next: start
+      metadata:
+        line_numbers: 187-189
+      action: action_listen
+    name: pattern collect information
+    description: Flow for collecting information from users
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_completed:
+    steps:
+    - id: pattern_completed_0_utter_can_do_something_else
+      next: END
+      metadata:
+        line_numbers: 194-195
+      action: utter_can_do_something_else
+    name: pattern completed
+    description: Flow that asks if the user needs more help after completing their initiated use cases
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_continue_interrupted:
+    steps:
+    - id: pattern_continue_interrupted_0_utter_flow_continue_interrupted
+      next: END
+      metadata:
+        line_numbers: 200-201
+      action: utter_flow_continue_interrupted
+    name: pattern continue interrupted
+    description: Conversation repair flow for managing when users switch between different flows
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_correction:
+    steps:
+    - id: pattern_correction_0_action_correct_flow_slot
+      next:
+      - if: not context.is_reset_only
+        then:
+        - id: pattern_correction_1_utter_corrected_previous_input
+          next: END
+          metadata:
+            line_numbers: 210-211
+          action: utter_corrected_previous_input
+      - else: END
+      metadata:
+        line_numbers: 206-213
+      action: action_correct_flow_slot
+    name: pattern correction
+    description: Conversation repair flow for managing user input changes or error corrections
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_human_handoff:
+    steps:
+    - id: pattern_human_handoff_0_utter_human_handoff_not_available
+      next: END
+      metadata:
+        line_numbers: 218-219
+      action: utter_human_handoff_not_available
+    name: pattern human handoff
+    description: Conversation repair flow for switching users to a human agent if their request can't be handled
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_internal_error:
+    steps:
+    - id: pattern_internal_error_0_noop
+      next:
+      - if: "'{{context.error_type}}' = 'rasa_internal_error_user_input_too_long'"
+        then:
+        - id: pattern_internal_error_1_utter_user_input_too_long_error_rasa
+          next: END
+          metadata:
+            line_numbers: 228-229
+          action: utter_user_input_too_long_error_rasa
+      - if: "'{{context.error_type}}' = 'rasa_internal_error_user_input_empty'"
+        then:
+        - id: pattern_internal_error_2_utter_user_input_empty_error_rasa
+          next: END
+          metadata:
+            line_numbers: 232-233
+          action: utter_user_input_empty_error_rasa
+      - else:
+        - id: pattern_internal_error_3_utter_internal_error_rasa
+          next: END
+          metadata:
+            line_numbers: 235-237
+          action: utter_internal_error_rasa
+      metadata:
+        line_numbers: 224-237
+      noop: true
+    name: pattern internal error
+    description: Conversation repair flow for informing users about internal errors
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_repeat_bot_messages:
+    steps:
+    - id: pattern_repeat_bot_messages_0_action_repeat_bot_messages
+      next: END
+      metadata:
+        line_numbers: 242-243
+      action: action_repeat_bot_messages
+    name: pattern repeat bot messages
+    description: Voice conversation repair pattern to repeat bot messages
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_restart:
+    steps:
+    - id: pattern_restart_0_action_restart
+      next: END
+      metadata:
+        line_numbers: 250-251
+      action: action_restart
+    name: pattern restart
+    description: Flow for restarting the conversation
+    nlu_trigger:
+    - intent:
+        name: restart
+        confidence_threshold: 0.0
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_search:
+    steps:
+    - id: pattern_search_0_utter_no_knowledge_base
+      next: END
+      metadata:
+        line_numbers: 256-258
+      action: utter_no_knowledge_base
+    name: pattern search
+    description: Flow for handling knowledge-based questions
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_session_start:
+    steps:
+    - id: pattern_session_start_0_action_session_start
+      next: END
+      metadata:
+        line_numbers: 265-266
+      action: action_session_start
+    name: pattern session start
+    description: Flow for starting the conversation
+    nlu_trigger:
+    - intent:
+        name: session_start
+        confidence_threshold: 0.0
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_skip_question:
+    steps:
+    - id: pattern_skip_question_0_utter_skip_question_answer
+      next: END
+      metadata:
+        line_numbers: 271-272
+      action: utter_skip_question_answer
+    name: pattern skip question
+    description: Conversation repair flow for managing user intents to skip questions (steps)
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true
+  pattern_user_silence:
+    steps:
+    - id: pattern_user_silence_0_noop
+      next:
+      - if: slots.consecutive_silence_timeouts = 0.0
+        then:
+        - id: pattern_user_silence_1_set_slots
+          next: pattern_user_silence_2_action_repeat_bot_messages
+          metadata:
+            line_numbers: 285-286
+          set_slots:
+          - consecutive_silence_timeouts: 1.0
+        - id: pattern_user_silence_2_action_repeat_bot_messages
+          next: END
+          metadata:
+            line_numbers: 287-288
+          action: action_repeat_bot_messages
+      - if: slots.consecutive_silence_timeouts = 1.0
+        then:
+        - id: pattern_user_silence_3_set_slots
+          next: pattern_user_silence_4_utter_ask_still_there
+          metadata:
+            line_numbers: 291-292
+          set_slots:
+          - consecutive_silence_timeouts: 2.0
+        - id: pattern_user_silence_4_utter_ask_still_there
+          next: END
+          metadata:
+            line_numbers: 293-294
+          action: utter_ask_still_there
+      - if: slots.consecutive_silence_timeouts > 1.0
+        then:
+        - id: pattern_user_silence_5_utter_inform_hangup
+          next: pattern_user_silence_6_action_hangup
+          metadata:
+            line_numbers: 297-297
+          action: utter_inform_hangup
+        - id: pattern_user_silence_6_action_hangup
+          next: END
+          metadata:
+            line_numbers: 298-299
+          action: action_hangup
+      - else: END
+      metadata:
+        line_numbers: 281-301
+      noop: true
+    name: pattern react to silence
+    description: Reacting to user silence in voice bots
+    nlu_trigger:
+    - intent:
+        name: silence_timeout
+        confidence_threshold: 0.0
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    persisted_slots:
+    - consecutive_silence_timeouts
+    run_pattern_completed: true
+  pattern_validate_slot:
+    steps:
+    - id: start
+      next:
+      - if: slots.{{context.validate}} is not null
+        then: END
+      - else: ask_refill
+      metadata:
+        line_numbers: 306-311
+      action: action_run_slot_rejections
+    - id: ask_refill
+      next: pattern_validate_slot_2_{{context.refill_action}}
+      metadata:
+        line_numbers: 312-313
+      action: '{{context.refill_utter}}'
+    - id: pattern_validate_slot_2_{{context.refill_action}}
+      next: pattern_validate_slot_3_action_listen
+      metadata:
+        line_numbers: 314-314
+      action: '{{context.refill_action}}'
+    - id: pattern_validate_slot_3_action_listen
+      next: start
+      metadata:
+        line_numbers: 315-316
+      action: action_listen
+    name: pattern validate slot
+    description: Flow for running validations on slots
+    file_path: C:\Users\andre\my-rasa-assistant\.venv\Lib\site-packages\rasa\dialogue_understanding\patterns\default_flows_for_patterns.yml
+    run_pattern_completed: true

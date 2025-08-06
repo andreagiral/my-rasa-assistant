@@ -53,6 +53,11 @@ responses:
   utter_ask_capstone_help:
     - text: "What do you need help with regarding your capstone project?"
     - text: "Tell me what stage you're in — brainstorming, researching, designing, or evaluating — and I'll help from there."
+  utter_ask_exercise_help:
+    - text: "What kind of exercise are you working on?"
+  utter_ask_bio_content:
+    - text: "Which biology section or chapter are you looking into?"
+
   
 
 actions:
@@ -64,4 +69,5 @@ actions:
 slots:
   confirm_correction:
     type: text
-    influence_conversation: false
+    mappings:
+      - type: from_text
