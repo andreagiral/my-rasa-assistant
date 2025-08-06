@@ -1,5 +1,10 @@
 version: "3.1"
 
+slots:
+  confirm_correction:
+    type: any
+    mappings:
+      - type: from_text
 
 intents:
   - greet
