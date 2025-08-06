@@ -13,7 +13,31 @@ from typing import Any, Optional, Text, Dict, List, Tuple
 import sqlite3
 from datetime import datetime, timezone
 
+class BaseBioAction(Action):
+    @staticmethod
+    def get_unit_for_chapter(chapter: int) -> int:
+        if 1 <= chapter <= 3: return 1
+        if 4 <= chapter <= 10: return 2
+        if 11 <= chapter <= 17: return 3
+        if 18 <= chapter <= 20: return 4
+        if 21 <= chapter <= 29: return 5
+        if 30 <= chapter <= 32: return 6
+        if 33 <= chapter <= 43: return 7
+        if 44 <= chapter <= 47: return 8
+        return 1
 
+    def log_interaction(self, user_id, user_msg, bot_response, source):
+        timestamp = datetime.now(timezone.utc).isoformat()
+        conn = sqlite3.connect("thinktrek_logs.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
+        conn.commit()
+        conn.close()
+        upload_db_to_s3()
+    
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -55,7 +79,7 @@ def summarize_or_answer(prompt: str, context: str, system_prompt: Optional[str] 
         logger.error(f"[OpenAI ERROR] {e}")
         return "Sorry, an error occurred while contacting OpenAI.", ""
 
-class ActionGetCapstoneIdea(Action):
+class ActionGetCapstoneIdea(BaseBioAction):
     def name(self) -> Text:
         return "action_get_capstone_idea"
 
@@ -69,19 +93,9 @@ class ActionGetCapstoneIdea(Action):
         dispatcher.utter_message(response or "Sorry, I couldn't generate a capstone idea right now.")
         self.log_interaction(tracker.sender_id, user_message, response, citation)
         return []
-    
-    def log_interaction(self, user_id, user_msg, bot_response, source):
-        timestamp = datetime.now(timezone.utc).isoformat()
-        conn = sqlite3.connect("thinktrek_logs.db")
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
-        conn.commit()
-        conn.close()
+    # Upload the DB to S3 for Streamlit access
 
-class ActionExerciseHelper(Action):
+class ActionExerciseHelper(BaseBioAction):
     def name(self) -> str:
         return "action_exercise_helper"
 
@@ -125,30 +139,9 @@ class ActionExerciseHelper(Action):
         dispatcher.utter_message(reply or "I'm thinking hard, but I need more input. Can you clarify?")
         self.log_interaction(tracker.sender_id, user_input, reply, citation)
         return []
-    
-    def get_unit_for_chapter(self, chapter: int) -> int:
-        if 1 <= chapter <= 3: return 1
-        if 4 <= chapter <= 10: return 2
-        if 11 <= chapter <= 17: return 3
-        if 18 <= chapter <= 20: return 4
-        if 21 <= chapter <= 29: return 5
-        if 30 <= chapter <= 32: return 6
-        if 33 <= chapter <= 43: return 7
-        if 44 <= chapter <= 47: return 8
-        return 1
-    
-    def log_interaction(self, user_id, user_msg, bot_response, source):
-        timestamp = datetime.now(timezone.utc).isoformat()
-        conn = sqlite3.connect("thinktrek_logs.db")
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
-        conn.commit()
-        conn.close()
+    # Upload the DB to S3 for Streamlit access
 
-class ActionGetBioContent(Action):
+class ActionGetBioContent(BaseBioAction):
     def name(self) -> Text:
         print ("Registering ActionGetBioContent")
         return "action_get_bio_content"
@@ -213,29 +206,7 @@ class ActionGetBioContent(Action):
         self.log_interaction(tracker.sender_id, user_message, output, citation)
         return []
 
-    def get_unit_for_chapter(self, chapter: int) -> int:
-        if 1 <= chapter <= 3: return 1
-        if 4 <= chapter <= 10: return 2
-        if 11 <= chapter <= 17: return 3
-        if 18 <= chapter <= 20: return 4
-        if 21 <= chapter <= 29: return 5
-        if 30 <= chapter <= 32: return 6
-        if 33 <= chapter <= 43: return 7
-        if 44 <= chapter <= 47: return 8
-        return 1
-    
-    def log_interaction(self, user_id, user_msg, bot_response, source):
-        timestamp = datetime.now(timezone.utc).isoformat()
-        conn = sqlite3.connect("thinktrek_logs.db")
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (user_id, timestamp, user_msg, bot_response, source, user_id))
-        conn.commit()
-        conn.close()
-
-class ActionLogAndRespond(Action):
+class ActionLogAndRespond(BaseBioAction):
     def name(self):
         return "action_log_and_respond"
 
@@ -281,27 +252,11 @@ class ActionLogAndRespond(Action):
                 "If the student asks for help, provide a factual explanation. Keep responses clear and educational."
             )
             response, source_file = summarize_or_answer(user_msg, context, system_prompt, source_ref=s3_key)
-
-        # Store in SQLite DB
-        conn = sqlite3.connect("thinktrek_logs.db")
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO chat_logs (user_id, timestamp, user_question, bot_response, source_reference, session_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (user_id, timestamp, user_msg, response, "OpenStax Chapter 1", session_id))
-        conn.commit()
-        conn.close()
-
+  # Upload the DB to S3 for Streamlit access
         dispatcher.utter_message(text=response)
         return []
-    
-    def get_unit_for_chapter(self, chapter: int) -> int:
-        if 1 <= chapter <= 3: return 1
-        if 4 <= chapter <= 10: return 2
-        if 11 <= chapter <= 17: return 3
-        if 18 <= chapter <= 20: return 4
-        if 21 <= chapter <= 29: return 5
-        if 30 <= chapter <= 32: return 6
-        if 33 <= chapter <= 43: return 7
-        if 44 <= chapter <= 47: return 8
-        return 1
+# Upload the DB to S3 so Streamlit can access it
+def upload_db_to_s3():
+    s3 = boto3.client("s3")
+    s3.upload_file("thinktrek_logs.db", "thinktrek-openstax", "logs/thinktrek_logs.db")
+

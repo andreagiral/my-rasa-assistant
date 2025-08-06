@@ -2,9 +2,25 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import requests
+import boto3
+
+
+def download_db_from_s3():
+    s3 = boto3.client("s3")
+    try:
+        s3.download_file("thinktrek-openstax", "logs/thinktrek_logs.db", "thinktrek_logs.db")
+    except Exception as e:
+        st.error("Could not load latest log data.")
+        st.stop()
+
+download_db_from_s3()
+
+conn = sqlite3.connect("thinktrek_logs.db")
+df = pd.read_sql_query("SELECT * FROM chat_logs", conn)
+conn.close()
 
 # Hardcoded users - can later move to a secure database or use Streamlit Auth if needed
-users = {"prof": "teach123", "student": "learn123"}
+users = {"instructor": "teach123", "student": "learn123"}
 
 # Use session_state to persist login info
 if "authenticated" not in st.session_state:
@@ -14,14 +30,14 @@ if "authenticated" not in st.session_state:
 # Login form
 if not st.session_state["authenticated"]:
     st.title("🔐 Think-Trek AI Login")
-    user = st.text_input("Username")
+    username = st.text_input("Username")
     pwd = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if users.get(user) == pwd:
+        if users.get(username) == pwd:
             st.session_state["authenticated"] = True
-            st.session_state["role"] = "prof" if user == "prof" else "student"
-            st.success(f"Logged in as {user}")
+            st.session_state["role"] = username
+            st.success(f"Logged in as {username}")
             st.rerun()
         else:
             st.error("Invalid login")
@@ -37,7 +53,7 @@ if st.session_state["authenticated"]:
         st.rerun()
 
     # Instructor view
-    if role == "prof":
+    if role == "instructor":
         st.title("📊 Think-Trek AI - Instructor Dashboard")
 
         conn = sqlite3.connect("thinktrek_logs.db")
@@ -100,5 +116,3 @@ if st.session_state["authenticated"]:
 
             with st.chat_message("assistant"):
                 st.markdown(bot_reply)
-
-
