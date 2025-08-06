@@ -239,10 +239,10 @@ class ActionGetBioContent(Action):
         upload_db_to_s3()  # Upload the DB to S3 for Streamlit access
 
 class ActionLogAndRespond(Action):
-    def name(self):
+    def name(self) -> Text:
         return "action_log_and_respond"
 
-    async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain) -> List[Dict[Text, Any]]:
+    async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> List[Dict[Text, Any]]:
         user_msg: str = tracker.latest_message.get("text", "").strip()  # Replace with your actual logic
         if not user_msg:
             dispatcher.utter_message("I'm not sure what you're asking. Can you rephrase?")
