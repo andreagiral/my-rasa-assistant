@@ -10,4 +10,4 @@ RUN chmod +x /app/start.sh
 
 EXPOSE 5005
 
-CMD ["./start.sh"]
+CMD ["bash", "./start.sh"]
