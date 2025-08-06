@@ -215,9 +215,9 @@ class ActionLogAndRespond(BaseBioAction):
         if not user_msg:
             dispatcher.utter_message("I'm not sure what you're asking. Can you rephrase?")
             return []
-        timestamp = datetime.now(timezone.utc).isoformat()
+    
         user_id = tracker.sender_id
-        session_id = tracker.sender_id  # Or generate another session ID
+    
         #  Step 1: Match keyword → chapter → S3 key
         keyword_to_chapter = {
             "photosynthesis": "chapter-8.html",
@@ -254,6 +254,9 @@ class ActionLogAndRespond(BaseBioAction):
             response, source_file = summarize_or_answer(user_msg, context, system_prompt, source_ref=s3_key)
   # Upload the DB to S3 for Streamlit access
         dispatcher.utter_message(text=response)
+        
+        self.log_interaction(user_id, user_msg, response, source_file)
+        
         return []
 # Upload the DB to S3 so Streamlit can access it
 def upload_db_to_s3():
