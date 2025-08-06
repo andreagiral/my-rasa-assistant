@@ -240,11 +240,47 @@ class ActionLogAndRespond(Action):
         return "action_log_and_respond"
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain) -> List[Dict[Text, Any]]:
-        user_msg = tracker.latest_message.get('text')
-        response = "This is ThinkTrek AI’s response."  # Replace with your actual logic
+        user_msg: str = tracker.latest_message.get("text", "").strip()  # Replace with your actual logic
+        if not user_msg:
+            dispatcher.utter_message("I'm not sure what you're asking. Can you rephrase?")
+            return []
         timestamp = datetime.now(timezone.utc).isoformat()
         user_id = tracker.sender_id
         session_id = tracker.sender_id  # Or generate another session ID
+        #  Step 1: Match keyword → chapter → S3 key
+        keyword_to_chapter = {
+            "photosynthesis": "chapter-8.html",
+            "osmosis": "chapter-3.html",
+            "mitochondria": "chapter-4.html",
+            "cells": "chapter-3.html",
+            "genetics": "chapter-12.html",
+            "evolution": "chapter-18.html",
+            "protein": "chapter-5.html",
+            "membrane": "chapter-5.html"
+        }
+
+        selected_chapter = "chapter-1.html"
+        for keyword, chapter in keyword_to_chapter.items():
+            if keyword in user_msg.lower():
+                selected_chapter = chapter
+                break
+
+        chapter_num = int(selected_chapter.split("-")[1].split(".")[0])
+        unit = self.get_unit_for_chapter(chapter_num)
+        s3_key = f"openstax_bio2e_chps/Unit {unit}/Chapter {chapter_num}/{selected_chapter}"
+
+        #  Step 2: Fetch context
+        context = fetch_html_from_s3(s3_key)[:4000]
+        if not context:
+            response = "Sorry, I couldn't retrieve the relevant textbook content right now."
+            source_file = s3_key
+        else:
+            # Step 3: Call OpenAI via summarize_or_answer()
+            system_prompt = (
+                "You are a helpful biology tutor. Answer the student's question using the OpenStax Biology 2e textbook. "
+                "If the student asks for help, provide a factual explanation. Keep responses clear and educational."
+            )
+            response, source_file = summarize_or_answer(user_msg, context, system_prompt, source_ref=s3_key)
 
         # Store in SQLite DB
         conn = sqlite3.connect("thinktrek_logs.db")
@@ -258,3 +294,14 @@ class ActionLogAndRespond(Action):
 
         dispatcher.utter_message(text=response)
         return []
+    
+    def get_unit_for_chapter(self, chapter: int) -> int:
+        if 1 <= chapter <= 3: return 1
+        if 4 <= chapter <= 10: return 2
+        if 11 <= chapter <= 17: return 3
+        if 18 <= chapter <= 20: return 4
+        if 21 <= chapter <= 29: return 5
+        if 30 <= chapter <= 32: return 6
+        if 33 <= chapter <= 43: return 7
+        if 44 <= chapter <= 47: return 8
+        return 1
