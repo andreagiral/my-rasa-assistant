@@ -4,6 +4,7 @@
 .venv/
 __pycache__/
 *.pyc
+.venv310/
 
 # Ignore model files and environment secrets
 #/models/
